@@ -1,11 +1,19 @@
-# Example file showing a basic pygame "game loop"
+
 import pygame
 
-# pygame setup
+
 pygame.init()
-screen = pygame.display.set_mode((800, 800))
+ventana = pygame.display.set_mode((800, 800))
 clock = pygame.time.Clock()
 running = True
+
+y = 20
+x = 100
+
+x_final = 800
+y_final = 800
+
+imagen = pygame.transform.scale(pygame.image.load("objeto.png"), (256, 256))
 
 while running:
 
@@ -13,22 +21,26 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill("black")
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                if x <= 0:
+                    continue
+                x -= 10
+            if event.key == pygame.K_RIGHT:
+                if x + 256 >= 400 and y < 420:
+                    continue
+                x += 10
+            if event.key == pygame.K_DOWN:
+                y += 10
+            if event.key == pygame.K_UP:
+                y -= 10
 
-    pygame.draw.rect(screen, "red", (
-        800 / 2 - 400 / 2,
-        800 / 2 - 400 / 2,
-        400,
-        400
-    ), 10, 50)
 
-    texto = pygame.font.SysFont("Fira Code", 36)
-    texto_renderizado = texto.render("Hola Mundo", True, "White")
+    ventana.fill("white")
 
-    screen.blit(texto_renderizado, (
-            800 / 2 - texto_renderizado.get_width() / 2,
-            800 / 2 - texto_renderizado.get_height() / 2
-    ))
+    pygame.draw.rect(ventana, "red", (400, 20, 20, 400))
+
+    ventana.blit(imagen, (x, y))
 
     pygame.display.flip()
 
